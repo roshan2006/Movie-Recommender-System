@@ -1,10 +1,16 @@
 import streamlit as st
 import pickle
 import requests
+import io
 
 
 movies = pickle.load(open("movies.pkl", "rb"))
-similarity = pickle.load(open("similarity.pkl", "rb"))
+
+# Load similarity.pkl from Hugging Face
+url = "https://huggingface.co/datasets/Roshankac/movie-recommender-data/resolve/main/similarity.pkl"
+
+response = requests.get(url)
+similarity = pickle.load(io.BytesIO(response.content))
 
 
 def fetch_poster(movie_name):
@@ -85,4 +91,4 @@ if st.button("Recommend"):
         st.text(names[4])
         st.image(posters[4])
 
-        #api_key = "f4d45ae9"
+        # api_key = "f4d45ae9"
